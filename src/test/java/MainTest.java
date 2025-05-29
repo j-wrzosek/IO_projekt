@@ -1,13 +1,9 @@
-package org.example;
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MainTest {
-
+public class AppTest {
     @Test
-    public void MainTest() {
+    public void testSomething() {
         assertTrue(true);
     }
 }
- 
