@@ -29,4 +29,4 @@ jobs:
         with:
           app-name: springboot-free-plan
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: target/demo-0.0.1-SNAPSHOT.jar
+          package: "${{ github.workspace }}/target/demo-0.0.1-SNAPSHOT.jar"
