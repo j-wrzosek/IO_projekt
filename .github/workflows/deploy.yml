@@ -22,9 +22,12 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
+      - name: Check contents of target folder (debug)
+        run: ls -l target
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: springboot-free-plan
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: target/*.jar
+          package: target/demo-0.0.1-SNAPSHOT.jar
