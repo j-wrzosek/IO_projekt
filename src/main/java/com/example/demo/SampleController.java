@@ -13,7 +13,7 @@ public class SampleController {
     @GetMapping("/getUserData")
     UserData Metoda1()
     {
-        return new UserData(1, "Imie", "Nazwisko");
+        return new UserData(1, "Adam", "Małysz");
     }
 
 }
