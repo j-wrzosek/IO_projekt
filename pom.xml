@@ -1,47 +1,58 @@
-name: Build and Deploy Spring Boot to Azure
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-on:
-  push:
-    branches:
-      - main
+  <modelVersion>4.0.0</modelVersion>
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.0</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+  <groupId>com.example</groupId>
+  <artifactId>demo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>springboot-app</name>
+  <description>Spring Boot Demo for Azure</description>
 
-      - name: Set up Java 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+  <properties>
+    <java.version>17</java.version>
+  </properties>
 
-      - name: Make Maven wrapper executable
-        run: chmod +x mvnw
+  <dependencies>
+    <!-- Spring Web (REST controller support) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
 
-      - name: Build with Maven
-        run: ./mvnw clean package -DskipTests
+    <!-- Test support -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-      - name: List built files (debug)
-        run: ls -lh target
+  <build>
+    <finalName>app</finalName> <!-- 👈 to tworzy app.jar -->
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
-      - name: Create ZIP package
-        run: |
-          mkdir deploy
-          cp target/app.jar deploy/app.jar
-          cd deploy
-          zip -r ../deployment.zip .
-
-      - name: Check ZIP contents (debug)
-        run: unzip -l deployment.zip
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: springboot-linux-demo              # 🟢 Twoja aplikacja
-          slot-name: production
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}  # 🟢 Secret musi być dodany
-          package: deployment.zip
+</project>
