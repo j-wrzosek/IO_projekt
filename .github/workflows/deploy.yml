@@ -30,10 +30,9 @@ jobs:
 
       - name: Create ZIP package
         run: |
-          mkdir deploy
-          cp target/*.jar deploy/app.jar
-          cd deploy
-          zip -r ../deployment.zip .
+          cp target/*.jar app.jar
+          zip deployment.zip app.jar
+
 
       - name: Check ZIP contents (debug)
         run: unzip -l deployment.zip
