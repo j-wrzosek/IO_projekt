@@ -44,4 +44,4 @@ jobs:
           app-name: springboot-linux-demo              # 🟢 Twoja aplikacja
           slot-name: production
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}  # 🟢 Secret musi być dodany
-          package: deployment.zip
+          package: target/*.jar
