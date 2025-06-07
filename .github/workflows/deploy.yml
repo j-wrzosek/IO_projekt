@@ -27,8 +27,10 @@ jobs:
 
       - name: Create ZIP for deployment
         run: |
-          cp target/*.jar app.jar
-          zip deployment.zip app.jar
+          mkdir deploy
+          cp target/*.jar deploy/app.jar
+          cd deploy
+          zip -r ../deployment.zip .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
