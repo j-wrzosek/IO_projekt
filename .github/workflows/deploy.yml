@@ -31,7 +31,7 @@ jobs:
       - name: Create ZIP package
         run: |
           mkdir deploy
-          cp target/app.jar deploy/app.jar
+          cp target/*.jar deploy/app.jar
           cd deploy
           zip -r ../deployment.zip .
 
