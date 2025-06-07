@@ -45,11 +45,12 @@
 
     <packaging>jar</packaging>
     <build>
+    <finalName>app</finalName>
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>3.2.5</version> <!-- pasuje do 3.5.0 -->
+            <version>3.2.5</version>
             <executions>
                 <execution>
                     <goals>
