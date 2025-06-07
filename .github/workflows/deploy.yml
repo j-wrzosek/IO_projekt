@@ -16,25 +16,32 @@ jobs:
       - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Make mvnw executable
+      - name: Make Maven wrapper executable
         run: chmod +x mvnw
 
       - name: Build with Maven
         run: ./mvnw clean package -DskipTests
 
-      - name: Debug JAR existence
-        run: ls -lh target/
+      - name: List built files (debug)
+        run: ls -lh target
 
-      - name: Sprawdź czy plik JAR istnieje
-        run: test -f target/*.jar || (echo "Brak pliku JAR!" && exit 1)
+      - name: Create ZIP package
+        run: |
+          mkdir deploy
+          cp target/app.jar deploy/app.jar
+          cd deploy
+          zip -r ../deployment.zip .
+
+      - name: Check ZIP contents (debug)
+        run: unzip -l deployment.zip
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: springboot-free-plan
+          app-name: springboot-linux-demo              # 🟢 Twoja aplikacja
           slot-name: production
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: target/*.jar
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}  # 🟢 Secret musi być dodany
+          package: deployment.zip
