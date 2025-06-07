@@ -28,6 +28,9 @@ jobs:
       - name: Debug JAR existence
         run: ls -lh target/
 
+      - name: Sprawdź czy plik JAR istnieje
+        run: test -f target/*.jar || (echo "Brak pliku JAR!" && exit 1)
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
